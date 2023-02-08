@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/app.css">
+</head>
+<body>
+    
+    <div id="app">
+        <div class="container">
+  <h2>Yapılacak Listesi({{list.length}}kayıt)</h2>
+  <hr>
+  <div v-if="isLoading">Yükleniyor...</div>
+  <p v-if="list.length==0">Yapılacak Yok</p>
+  <table class="table table-bordered table-hover" v-if="list.length>0">
+    <thead>
+      <tr class="bg-success text-white">
+          <td>index</td>
+          <td>başlık</td>
+          <td>yapıldı</td>
+      </tr>
+    </thead>
+    <tbody>
+        <tr v-for="(item,index) in list">
+            <td>{{index}}</td>
+            <td>{{item.title}}</td>
+            <td>{{item.completed}}</td>
+        </tr>
+    </tbody>
+  </table>
+
+    </div>
+</div>
+
+    <script src="../assets/js/vue.js"></script>
+    <script>
+       const firstapp= new Vue({//const app diyerek değişken atadım
+            el:"#app",
+            name:"Fetch api kullanımı",
+            data: {//uyulama içinde kullanılan değişkenleri verileri burda saklıyoruz
+                list:[{}],
+                isLoading:true,
+            },
+            created() {
+                fetch('https://jsonplaceholder.typicode.com/photos')
+                .then((res)=>{
+                    return res.json();
+                })
+                .then((res)=>{
+                    this.isLoading=false;
+                    this.list=res;
+                })
+            },
+        })
+    </script>
+</body>
+</html>
